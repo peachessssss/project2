@@ -1,15 +1,13 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'antd/dist/antd.css';
-import { Button, Table } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
-import { Layout, Input, InputNumber } from 'antd';
+import { Layout, Input, InputNumber, Button } from 'antd';
 import axios from 'axios'
 import d3 from "d3"
 window.d3 = d3;
 const functionPlot = require("function-plot");
 const { Content } = Layout;
 const { parse, derivative, abs } = require("mathjs");
-const { Column } = Table;
 
 function Raphson() {
   let [x0, setx0] = useState(0)
@@ -20,33 +18,36 @@ function Raphson() {
   const [FX_RAPHSON, setFX] = useState("x")
   const [X0_RAPHSON, setX0] = useState(0)
   const chart = useRef(null);
+
   useEffect(() => {
     axios.get("http://localhost:4000/api/users/showraphson").then(res => {
-        setFX(res.data.data[0].FX_RAPHSON)
-        setX0(res.data.data[0].X0_RAPHSON)
+      setFX(res.data.data[0].FX_RAPHSON)
+      setX0(res.data.data[0].X0_RAPHSON)
     })
-}, [])
+  },
+    [])
 
-useEffect(() => {
-  functionPlot({
-    target: chart.current,
-    width: 700 ,
-    height: 600,
-    yAxis: { domain: [-1, 9] },
-    tip: {
-      renderer: function () { }
-    },
-    grid: false,
-    data: [
-      {
-        fn: fx
-      }
-    ],
-    annotations: [{
-      x: x,
-    }]
+  useEffect(() => {
+    functionPlot({
+      target: chart.current,
+      width: 700,
+      height: 600,
+      yAxis: { domain: [-1, 9] },
+      tip: {
+        renderer: function () { }
+      },
+      grid: false,
+      data: [
+        {
+          fn: fx
+        }
+      ],
+      annotations: [{
+        x: x,
+      }]
+    });
   });
-});
+  
   const coderaphson = () => {
     console.log("fx : " + fx)
     console.log("xr : " + x0)

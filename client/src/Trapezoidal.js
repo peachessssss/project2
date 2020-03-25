@@ -29,7 +29,7 @@ function CTR() {
     var Ireal = []
     const answer = (fc, X) => parse(fc).evaluate({ x: X })
     const e = (Ireal, Ical) => Math.abs((Ireal - Ical) / Ireal)
-    const integralANS = mathjs.integral(fx, 'x')
+    const integralANS = mathjs.integral(fc, 'x')
     const tempfc = integralANS.toString()
     Ireal = mathjs.parse(tempfc).evaluate({ x: b }) - mathjs.parse(tempfc).evaluate({ x: a })
     for (j = 0; j <= n; j++) {

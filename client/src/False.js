@@ -79,6 +79,7 @@ function False() {
     setx(xm.toFixed(6))
     setdata(temp)
   }
+
   return (
     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
       <p>Falseposition</p>
@@ -104,4 +105,5 @@ function False() {
     </Content>
   )
 }
+
 export default False;

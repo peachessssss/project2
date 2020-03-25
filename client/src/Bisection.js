@@ -23,9 +23,7 @@ function Bisection() {
   const [XL_BISECTION, setXL] = useState(0)
   const [XR_BISECTION, setXR] = useState(0)
   const [FX_BISECTION, setFX] = useState("")
-  
 
- 
   useEffect(() => {
     axios.get("http://localhost:4000/api/users/showbisection").then(res => {
       setFX(res.data.data[0].FX_BISECTION)
@@ -37,7 +35,7 @@ function Bisection() {
   useEffect(() => {
     functionPlot({
       target: chart.current,
-      width: 700 ,
+      width: 700,
       height: 600,
       yAxis: { domain: [-1, 9] },
       tip: {
@@ -81,7 +79,6 @@ function Bisection() {
     setx(xm.toFixed(6))
     setdata(temp)
   }
-
   return (
     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
       <p>Bisection</p>

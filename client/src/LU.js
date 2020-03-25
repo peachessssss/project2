@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Button, Table, Icon } from 'antd';
+import { Button, } from 'antd';
 import { Layout, Input, InputNumber } from 'antd';
-import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
+import { CalculatorOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
 const { Content } = Layout;
 const { parse } = require("mathjs");
-const { Column } = Table;
 
 function LU() {
     let [n, setn] = useState("")
@@ -60,10 +59,12 @@ function LU() {
             </td>
         ));
     }
-    const print = () =>{
+
+    const print = () => {
         ans = Array(n).fill(0)
         return ans.map((x, j) => <p>x{j + 1}={data[j]}</p>)
-      }
+    }
+
     const codelu = () => {
         var i = 0
         var j = []
@@ -123,7 +124,8 @@ function LU() {
             }
         }
         setdata(X);
-}
+    }
+
     return (
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
             <p>LU</p>
@@ -132,9 +134,9 @@ function LU() {
             </div>
             <p>n<InputNumber n onChange={value => setn(value)} /></p>
             <Button onClick={codelu} ><CalculatorOutlined />Calculator</Button>
-            <Card title="Answer :x" bordered={false} style={{width: 300}}>
-      {print(n)}
-      </Card>
+            <Card title="Answer :x" bordered={false} style={{ width: 300 }}>
+                {print(n)}
+            </Card>
         </Content>
     )
 }

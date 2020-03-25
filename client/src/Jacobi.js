@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Button, Table, Icon } from 'antd';
-import { Layout, Input, InputNumber } from 'antd';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
-import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
+import { Layout, Button, InputNumber } from 'antd';
+import { CalculatorOutlined } from '@ant-design/icons';
 const { Content } = Layout;
+
 function Jacobi() {
     let [n, setn] = useState("")
     var temp = []
@@ -12,6 +11,7 @@ function Jacobi() {
     var matrixB = []
     var A = []
     var B = []
+
     const createInput = () => {
         temp = Array.from(Array(n), _ => Array(n + 1).fill(0))
         matrixA = Array.from(Array(n), _ => Array(n).fill(0))
@@ -27,6 +27,7 @@ function Jacobi() {
             </div>
         );
     }
+
     const createHead = () => {
         return temp.map((x, j) => <th>x{j + 1}</th>);
     }
@@ -39,6 +40,7 @@ function Jacobi() {
             </tr>
         ));
     }
+
     const createCol = (i) => {
         return temp[0].map((x, j) => (
             <td>
@@ -53,6 +55,7 @@ function Jacobi() {
             </td>
         ));
     }
+
     const codejacobi = () => {
         var i = 0
         var n = 0
@@ -80,15 +83,16 @@ function Jacobi() {
             console.log("x" + (i + 1) + "=" + xn[i].toFixed(6))
         }
     }
-        return (
-            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
-                <p>Jacobi</p>
-                <div>
-                    {createInput(n)}
-                </div>
-                <p>n<InputNumber n onChange={value => setn(value)} /></p>
-                <Button onClick={codejacobi} ><CalculatorOutlined />Calculator</Button>
-            </Content>
-        )
+    
+    return (
+        <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
+            <p>Jacobi</p>
+            <div>
+                {createInput(n)}
+            </div>
+            <p>n<InputNumber n onChange={value => setn(value)} /></p>
+            <Button onClick={codejacobi} ><CalculatorOutlined />Calculator</Button>
+        </Content>
+    )
 }
 export default Jacobi;
