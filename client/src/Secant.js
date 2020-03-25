@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'antd/dist/antd.css';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
-import { Layout, Input, InputNumber, Button } from 'antd';
+import { Layout, Input, InputNumber, Button,Table } from 'antd';
 import axios from 'axios'
 import d3 from "d3"
 window.d3 = d3;
 const functionPlot = require("function-plot");
 const { Content } = Layout;
 const { parse, abs } = require("mathjs");
+const { Column } = Table;
 
 function Secant() {
     let [x0, setx0] = useState(0)
