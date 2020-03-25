@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import { Layout, Button, InputNumber, Card } from 'antd';
 import { CalculatorOutlined } from '@ant-design/icons';
@@ -96,7 +96,7 @@ function Jordan() {
 
   return (
     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
-      <p>Gausseliminate</p>
+      <p>Jordan</p>
       <div>
         {createInput(n)}
       </div>

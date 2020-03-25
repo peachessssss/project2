@@ -91,7 +91,7 @@ function Seidel() {
 
     return (
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
-            <p>Jacobi</p>
+            <p>Seidel</p>
             <div>
                 {createInput(n)}
             </div>

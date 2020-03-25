@@ -75,7 +75,7 @@ function Secant() {
 
     return (
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, }} >
-            <p>Onepoint</p>
+            <p>Secant</p>
             <p>
                 fx
 <Input fx onChange={event => setfx(event.target.value)}
