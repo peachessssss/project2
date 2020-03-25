@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import 'antd/dist/antd.css';
-import { Button, Table } from 'antd';
-import { Layout, Input, InputNumber } from 'antd';
-import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
+import { Layout,Button, InputNumber } from 'antd';
+import { CalculatorOutlined} from '@ant-design/icons';
 const { Content } = Layout;
-const ans = []
 
 function Gausseliminate() {
     let [n,setn] = useState("")

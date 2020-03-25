@@ -5,7 +5,6 @@ import { Layout, Input, InputNumber } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
 const { Content } = Layout;
-const ans = []
 
 function Jordan() {
     let [n,setn] = useState("")

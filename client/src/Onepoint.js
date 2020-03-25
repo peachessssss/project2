@@ -1,27 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import 'antd/dist/antd.css';
 import { Button, Table } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
 import { Layout, Input, InputNumber } from 'antd';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
+import d3 from "d3"
 import axios from 'axios'
+window.d3 = d3;
+
+const functionPlot = require("function-plot");
 const { Content } = Layout;
-const { parse } = require("mathjs");
+const { parse} = require("mathjs");
 const { Column } = Table;
 function Onepoint() {
     let [x0, setx0] = useState(0)
-    const [fx, setfx] = useState()
+    const [fx, setfx] = useState("x")
     const [data, setdata] = useState();
     const [x, setx] = useState(0)
     const temp = []
-    const [FX_ONEPOINT, setFX] = useState("")
+    const [FX_ONEPOINT, setFX] = useState("x")
     const [X0_ONEPOINT, setX0] = useState(0)
+    const chart = useRef(null);
     useEffect(() => {
         axios.get("http://localhost:4000/api/users/showonepoint").then(res => {
             setFX(res.data.data[0].FX_ONEPOINT)
             setX0(res.data.data[0].X0_ONEPOINT)
         })
     }, [])
+
+
+        useEffect(() => {
+            functionPlot({
+              target: chart.current,
+              yAxis: { domain: [-1, 9] },
+              tip: {
+                renderer: function () { }
+              },
+              grid: false,
+              data: [
+                {
+                  fn: fx.replace("e",Math.E),
+                  color: "black",
+                  graphType: 'polyline'
+                }
+              ],
+              annotations: [{
+                x: x
+              }]
+            });
+          });
+
     const codeonepoint = () => {
         console.log("fx : " + fx)
         console.log("xr : " + x0)
@@ -64,25 +91,7 @@ function Onepoint() {
                 <Column title="Y" dataIndex="fx0" key="fx0" />
                 <Column title="Error" dataIndex="error" key="error" />
             </Table>
-            <LineChart
-                width={950}
-                height={400}
-                data={data}
-                margin={{ top: 30, bottom: 10 }}
-                style={{ backgroundColor: "#fff" }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="fx0" />
-                <YAxis
-                    type="number"
-                    dataKey="x0"
-                    domain={["auto", "auto"]}
-                    allowDataOverflow="true"
-                />
-                <Tooltip />
-                <Legend />
-                <Line type="linear" dataKey="x0" stroke="#8884d8" />
-            </LineChart>
+            <div ref={chart}></div>
         </Content>
     )
 }

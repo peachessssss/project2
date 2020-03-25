@@ -1,7 +1,5 @@
 let mongoose = require('mongoose');
 
-//Schema Validation
-
 let userSchema = mongoose.Schema({
     FX : {type : String,require:true},
     XL : {type : Number,require :true},

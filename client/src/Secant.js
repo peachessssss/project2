@@ -1,10 +1,12 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import 'antd/dist/antd.css';
 import { Button, Table } from 'antd';
 import { CalculatorOutlined,DatabaseOutlined } from '@ant-design/icons';
 import { Layout, Input, InputNumber } from 'antd';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
 import axios from 'axios'
+import d3 from "d3"
+window.d3 = d3;
+const functionPlot = require("function-plot");
 const { Content } = Layout;
 const { parse, abs } = require("mathjs");
 const { Column } = Table;
@@ -12,12 +14,13 @@ const { Column } = Table;
 function Secant() {
     let [x0, setx0] = useState(0)
     let [x, setx] = useState(0)
-    const [fx, setfx] = useState()
+    const [fx, setfx] = useState("x")
     const [data, setdata] = useState();
     const temp = []
     const [FX_SECANT, setFX] = useState("")
     const [X1_SECANT, setX1] = useState(0)
     const [X0_SECANT, setX0] = useState(0)
+    const chart = useRef(null);
     useEffect(() => {
         axios.get("http://localhost:4000/api/users/showsecant").then(res=>{
           setFX(res.data.data[0].FX_SECANT)
@@ -25,6 +28,26 @@ function Secant() {
           setX0(res.data.data[0].X0_SECANT)
         })
       }, [])
+      useEffect(() => {
+        functionPlot({
+          target: chart.current,
+          width: 700 ,
+          height: 600,
+          yAxis: { domain: [-1, 9] },
+          tip: {
+            renderer: function () { }
+          },
+          grid: false,
+          data: [
+            {
+              fn: fx
+            }
+          ],
+          annotations: [{
+            x: x,
+          }]
+        });
+      });
     const codesecant = () => {
         console.log("fx : " + fx)
         console.log("xr : " + x1)
@@ -70,25 +93,7 @@ function Secant() {
                 <Column title="Y" dataIndex="fx0" key="fx0" />
                 <Column title="Error" dataIndex="error" key="error" />
             </Table>
-            <LineChart
-                width={950}
-                height={400}
-                data={data}
-                margin={{ top: 30, bottom: 10 }}
-                style={{ backgroundColor: "#fff" }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="fx0" />
-                <YAxis
-                    type="number"
-                    dataKey="x0"
-                    domain={["auto", "auto"]}
-                    allowDataOverflow="true"
-                />
-                <Tooltip />
-                <Legend />
-                <Line type="linear" dataKey="x0" stroke="#8884d8" />
-            </LineChart>
+            <div ref={chart}></div>
         </Content>
     )
 }

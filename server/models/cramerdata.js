@@ -1,7 +1,5 @@
 let mongoose = require('mongoose');
 
-//Schema Validation
-
 let userSchema = mongoose.Schema({
     MATRIXA : {type : Array,require :true},
     MATRIXB : {type : Array,require :true},

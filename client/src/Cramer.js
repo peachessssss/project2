@@ -18,8 +18,8 @@ function Cramer() {
   var ans = []
   const [MATRIXA_CRAMER,setMATRIXA] = useState(0)
   const [MATRIXB_CRAMER,setMATRIXB] = useState(0)
-  const [matrixA,setMATRIXa] = useState([])
-  const [matrixB,setMATRIXb] = useState([])
+  var matrixA = []
+  var matrixB = []
   const [N_CRAMER,setN] = useState(0)
 
 
@@ -77,6 +77,12 @@ function Cramer() {
     ans = Array(n).fill(0)
     return ans.map((x, j) => <p>x{j + 1}={data[j]}</p>)
   }
+  function changevalue(value) {
+    matrixA=setMATRIXA[value]
+    matrixB=setMATRIXB[value]
+    n=setN[value]
+
+  }
   const codecramer = () => {
     var i = 0;
     var j = 0;
@@ -101,10 +107,11 @@ function Cramer() {
       </div>
       <p>n<InputNumber n onChange={value => setn(value)} /></p>
       <Button onClick={codecramer} ><CalculatorOutlined />Calculator</Button>
-      <button onClick={()=>{
-	setMATRIXa(MATRIXA_CRAMER)
-	setMATRIXb(MATRIXB_CRAMER)
+      <button onchange={changevalue} onClick={()=>{
+	setMATRIXA(MATRIXA_CRAMER)
+	setMATRIXB(MATRIXB_CRAMER)
         setn(N_CRAMER)
+        
     }}><DatabaseOutlined />MatrixA : {MATRIXA_CRAMER} <br/> MatrixB : {MATRIXB_CRAMER} <br/> N : {N_CRAMER} </button> 
       <Card title="Answer :x" bordered={false} style={{width: 300}}>
       {print(n)}

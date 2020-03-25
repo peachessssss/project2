@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect,useRef } from 'react';
 import { Layout, Table, Button, Input, InputNumber } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
 import axios from 'axios';
+import d3 from "d3"
+const functionPlot = require("function-plot");
 const { Content } = Layout;
 const { parse } = require("mathjs");
 const { Falsecolumn } = Table;
+window.d3 = d3;
 
 function False() {
   let [xl, setxl] = useState(0)
   let [xr, setxr] = useState(0)
-  const [fx, setfx] = useState()
+  const [fx, setfx] = useState("x")
   const [data, setdata] = useState();
   const temp = []
   const [x, setx] = useState(0)
   const [XL_FALSE, setXL] = useState(0)
   const [XR_FALSE, setXR] = useState(0)
   const [FX_FALSE, setFX] = useState("")
+  const chart = useRef(null);
 
   useEffect(() => {
     axios.get("http://localhost:4000/api/users/showfalse").then(res => {
@@ -26,6 +28,28 @@ function False() {
       setXR(res.data.data[0].XR_FALSE)
     })
   }, [])
+
+  useEffect(() => {
+    functionPlot({
+      target: chart.current,
+      width: 700 ,
+      height: 600,
+      yAxis: { domain: [-1, 9] },
+      tip: {
+        renderer: function () { }
+      },
+      grid: false,
+      data: [
+        {
+          fn: fx
+        }
+      ],
+      annotations: [{
+        x: x,
+      }]
+    });
+  });
+  
   const codefalse = () => {
     console.log("fx : " + fx)
     console.log("xr : " + xl)
@@ -76,25 +100,7 @@ function False() {
         <Falsecolumn title="Y" dataIndex="fxm1" rowkey="fxm1" />
         <Falsecolumn title="Error" dataIndex="error1" rowkey="error1" />
       </Table>
-      <LineChart
-        width={950}
-        height={400}
-        data={data}
-        margin={{ top: 30, bottom: 10 }}
-        style={{ backgroundColor: "#fff" }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="xm1" />
-        <YAxis
-          type="number"
-          dataKey="fxm1"
-          domain={["auto", "auto"]}
-          allowDataOverflow="true"
-        />
-        <Tooltip />
-        <Legend />
-        <Line type="linear" dataKey="fxm1" stroke="#8884d8" />
-      </LineChart>
+      <div ref={chart}></div>
     </Content>
   )
 }

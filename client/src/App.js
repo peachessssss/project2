@@ -25,7 +25,7 @@ import Forward from './Forward'
 import Backward from './Backward'
 import Central from './Central'
 const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 function App() {
 const [page,setpage]=useState()
