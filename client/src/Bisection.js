@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Table, Layout, Input, InputNumber } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import d3 from "d3"
-const functionPlot = require("function-plot");
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
 const { Content } = Layout;
 const { parse } = require("mathjs");
 const { Column } = Table;
-window.d3 = d3;
 
 function Bisection() {
 
   let [xl, setxl] = useState()
   let [xr, setxr] = useState()
-  const [fx, setfx] = useState("x")
+  const [fx, setfx] = useState("x^4-13")
   const [data, setdata] = useState();
   const temp = []
   const [x, setx] = useState(0)
-  const chart = useRef(null);
 
   const [XL_BISECTION, setXL] = useState(0)
   const [XR_BISECTION, setXR] = useState(0)
@@ -32,26 +29,6 @@ function Bisection() {
     })
   }, [])
 
-  useEffect(() => {
-    functionPlot({
-      target: chart.current,
-      width: 700,
-      height: 600,
-      yAxis: { domain: [-1, 9] },
-      tip: {
-        renderer: function () { }
-      },
-      grid: false,
-      data: [
-        {
-          fn: fx
-        }
-      ],
-      annotations: [{
-        x: x,
-      }]
-    });
-  });
   const codebisection = () => {
     const f = (fx, value) => parse(fx).evaluate({ x: value })
     const e = (xm, xm0) => Math.abs((xm - xm0) / xm)
@@ -100,7 +77,25 @@ function Bisection() {
         <Column title="Y" dataIndex="fxm" key="fxm" />
         <Column title="Error" dataIndex="error" key="error" />
       </Table>
-      <div ref={chart}></div>
+      <LineChart
+      width={950}
+      height={400}
+      data={data}
+      margin={{ top: 30, bottom: 10 }}
+      style={{ backgroundColor: "#fff" }}
+>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="xm" />
+      <YAxis
+        type="number"
+        dataKey="fxm"
+        domain={["auto", "auto"]}
+        allowDataOverflow="true"
+      />
+      <Tooltip />
+      <Legend />
+      <Line type="linear" dataKey="fxm" stroke="#8884d8" />
+    </LineChart>
     </Content>
   );
 }

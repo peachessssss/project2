@@ -2,12 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'antd/dist/antd.css';
 import { Button, Table } from 'antd';
 import { CalculatorOutlined, DatabaseOutlined } from '@ant-design/icons';
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
 import { Layout, Input, InputNumber } from 'antd';
-import d3 from "d3"
 import axios from 'axios'
-window.d3 = d3;
 
-const functionPlot = require("function-plot");
 const { Content } = Layout;
 const { parse } = require("mathjs");
 const { Column } = Table;
@@ -21,7 +19,6 @@ function Onepoint() {
   const temp = []
   const [FX_ONEPOINT, setFX] = useState("x")
   const [X0_ONEPOINT, setX0] = useState(0)
-  const chart = useRef(null);
 
   useEffect(() => {
     axios.get("http://localhost:4000/api/users/showonepoint").then(res => {
@@ -30,27 +27,6 @@ function Onepoint() {
     })
   },
     [])
-
-  useEffect(() => {
-    functionPlot({
-      target: chart.current,
-      yAxis: { domain: [-1, 9] },
-      tip: {
-        renderer: function () { }
-      },
-      grid: false,
-      data: [
-        {
-          fn: fx.replace("e", Math.E),
-          color: "black",
-          graphType: 'polyline'
-        }
-      ],
-      annotations: [{
-        x: x
-      }]
-    });
-  });
 
   const codeonepoint = () => {
     console.log("fx : " + fx)
@@ -95,7 +71,25 @@ function Onepoint() {
         <Column title="Y" dataIndex="fx0" key="fx0" />
         <Column title="Error" dataIndex="error" key="error" />
       </Table>
-      <div ref={chart}></div>
+      <LineChart
+      width={950}
+      height={400}
+      data={data}
+      margin={{ top: 30, bottom: 10 }}
+      style={{ backgroundColor: "#fff" }}
+>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="fx0" />
+      <YAxis
+        type="number"
+        dataKey="x0"
+        domain={["auto", "auto"]}
+        allowDataOverflow="true"
+      />
+      <Tooltip />
+      <Legend />
+      <Line type="linear" dataKey="x0" stroke="#8884d8" />
+    </LineChart>
     </Content>
   )
 }
