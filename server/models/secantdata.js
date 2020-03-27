@@ -1,9 +1,9 @@
 let mongoose = require('mongoose');
 
 let userSchema = mongoose.Schema({
-    FX4 : {type : String,require:true},
-    X1 : {type : Number,require :true},
-    X02 : {type : Number,require :true}
+    FX_SECANT : {type : String,require:true},
+    X1_SECANT : {type : Number,require :true},
+    X0_SECANT : {type : Number,require :true}
 });
 
 let Secant = mongoose.model('secants',userSchema);

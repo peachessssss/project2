@@ -12,7 +12,7 @@ function Bisection() {
 
   let [xl, setxl] = useState()
   let [xr, setxr] = useState()
-  const [fx, setfx] = useState("x^4-13")
+  const [fx, setfx] = useState("")
   const [data, setdata] = useState();
   const temp = []
   const [x, setx] = useState(0)
@@ -53,7 +53,6 @@ function Bisection() {
       });
       i++;
     }
-    setx(xm.toFixed(6))
     setdata(temp)
   }
   return (
